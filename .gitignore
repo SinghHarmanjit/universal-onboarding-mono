@@ -1,0 +1,11 @@
+*.log
+node_modules/
+.DS_Store
+.env
+.env.local
+.env.*.local
+.turbo
+dist/
+build/
+.next/
+coverage/

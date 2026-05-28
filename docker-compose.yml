@@ -1,0 +1,65 @@
+# Local Docker Compose — for testing built images on your laptop.
+#
+# Usage:
+#   docker compose up
+#
+# To rebuild images after code changes:
+#   docker compose build
+#   docker compose up
+
+services:
+  # postgres:
+  #   image: pgvector/pgvector:pg16
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_USER: autonomous
+  #     POSTGRES_PASSWORD: autonomous_universal
+  #     POSTGRES_DB: universal
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U autonomous -d universal"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
+  #   restart: unless-stopped
+
+  api:
+    image: onboarding-api:local
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql://autonomous:autonomous_universal@postgres:5432/universal"
+      PORT: "8000"
+      CORS_ORIGINS: '["http://localhost:3000"]'
+      LLM_BASE_URL: "http://host.docker.internal:11434"
+      EMBEDDING_BASE_URL: "http://host.docker.internal:11434"
+      EMBEDDING_MODEL: "nomic-embed-text:v1.5"
+      EMBEDDING_DIMENSION: "768"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # depends_on:
+    #   postgres:
+    #     condition: service_healthy
+    restart: unless-stopped
+
+  dashboard:
+    image: onboarding-dashboard:local
+    build:
+      context: ./apps/dashboard
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      API_BASE_URL: "http://api:8000"
+      NODE_ENV: production
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  pgdata:

@@ -1,0 +1,30 @@
+{
+  "name": "@onboarding/dashboard",
+  "version": "0.1.0",
+  "description": "Dashboard for Universal Onboarding — AI Sales Assistant",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@copilotkit/react-core": "latest",
+    "@copilotkit/react-ui": "latest",
+    "@copilotkit/runtime": "latest",
+    "next": "latest",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "latest",
+    "typescript": "^5.7.3"
+  }
+}
