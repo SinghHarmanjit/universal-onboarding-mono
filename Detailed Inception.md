@@ -171,7 +171,7 @@ An **AI Sales Assistant** — a web-based application that prospective clients i
                                │
                                ▼
 ┌──────────────────────────────────────────────────────────────────────┐
-│                   BACKEND (Python — LangGraph)                       │
+│                   BACKEND (Typescript — LangGraph)                   │
 │                                                                      │
 │   ┌─────────────────────────────────────────────-─┐                  │
 │   │             SUPERVISOR AGENT                  │                  │
@@ -215,11 +215,11 @@ An **AI Sales Assistant** — a web-based application that prospective clients i
 | Monorepo vs. Polyrepo | **Monorepo** (`universal-onboarding-mono`) | Simplifies development during prototype phase. Frontend and backend co-located. |
 | Frontend Framework | **Next.js** | CopilotKit has first-class Next.js integration. SSR support. |
 | Agentic UI Library | **CopilotKit (CoAgents)** | Enables the dashboard to reactively update based on agent state. Not a traditional chatbot — the UI is agent-driven. |
-| Agent Orchestration | **LangGraph (Python)** | Native support for supervisor/sub-agent patterns, state management, and conditional routing. Integrates with CopilotKit via CoAgents protocol. |
+| Agent Orchestration | **LangGraph (Typescript)** | Native support for supervisor/sub-agent patterns, state management, and conditional routing. Integrates with CopilotKit via CoAgents protocol. |
 | LLM Abstraction | **LangChain** | Provides a unified interface to swap between locally hosted models (Ollama), AWS Bedrock, and OpenAI without code changes. |
 | LLM (Prototype) | **Locally hosted** via Ollama | Qwen 3 for reasoning/supervisor. Gemma 3 for conversation generation. Swappable via LangChain. |
 | Embedding Model | **Nomic Embed Text v1.5** (locally hosted) | Already downloaded. Open-source, performant, supports variable-length embeddings (Matryoshka). |
-| Vector Store (Prototype) | **ChromaDB** | Zero-config, runs locally, Python-native. Adequate for prototype. |
+| Vector Store (Prototype) | **pgvector** | Zero-config, runs locally, Postgres-native. Adequate for prototype. |
 | Vector Store (Production) | **Qdrant** (planned) | Scalable, performant, supports filtering. Migration path from ChromaDB is straightforward. |
 | Auditor Placement | **Parallel (Option B)** | Input auditor runs in parallel with supervisor to minimise latency. Output auditor runs inline before final response delivery. |
 
@@ -247,31 +247,59 @@ An **AI Sales Assistant** — a web-based application that prospective clients i
 
 **State Schema (LangGraph):**
 
-```python
-from typing import TypedDict, Annotated, Optional
-from langgraph.graph.message import add_messages
+```typescript
+import { Annotation } from "@langchain/langgraph";
+import { BaseMessage } from "@langchain/core/messages";
 
-class ConversationState(TypedDict):
-    # Core conversation
-    messages: Annotated[list, add_messages]
-    session_id: str
-    prospect_name: Optional[str]
+export interface ConversationState {
+  // Core conversation
+  messages: BaseMessage[];
+  session_id: string;
+  prospect_name: string | null;
 
-    # MEDDPICC tracking
-    meddpicc: dict  # See Section 8 for schema
+  // MEDDPICC tracking
+  meddpicc: Record<string, any>; // See Section 8 for schema
 
-    # Dashboard state (synced to CopilotKit)
-    summary_cards: list[dict]        # Key topics discussed
-    resource_links: list[dict]       # Relevant docs surfaced
-    saved_qa_pairs: list[dict]       # Prospect-bookmarked Q&A
-    qualification_score: float       # 0.0 to 1.0
+  // Dashboard state (synced to CopilotKit)
+  summary_cards: Record<string, any>[]; // Key topics discussed
+  resource_links: Record<string, any>[]; // Relevant docs surfaced
+  saved_qa_pairs: Record<string, any>[]; // Prospect-bookmarked Q&A
+  qualification_score: number; // 0.0 to 1.0
 
-    # Auditor state
-    flagged_messages: list[dict]     # Messages flagged by auditor
-    is_blocked: bool                 # If prospect is blocked for abuse
+  // Auditor state
+  flagged_messages: Record<string, any>[]; // Messages flagged by auditor
+  is_blocked: boolean; // If prospect is blocked for abuse
 
-    # RAG context
-    last_retrieved_context: list[str]  # Most recent RAG results
+  // RAG context
+  last_retrieved_context: string[]; // Most recent RAG results
+}
+
+// LangGraph State Annotation
+export const ConversationStateAnnotation = Annotation.Root({
+  // Core conversation
+  messages: Annotation<BaseMessage[]>({
+    reducer: (x, y) => x.concat(y),
+    default: () => [],
+  }),
+  session_id: Annotation<string>,
+  prospect_name: Annotation<string | null>,
+
+  // MEDDPICC tracking
+  meddpicc: Annotation<Record<string, any>>,
+
+  // Dashboard state (synced to CopilotKit)
+  summary_cards: Annotation<Record<string, any>[]>,
+  resource_links: Annotation<Record<string, any>[]>,
+  saved_qa_pairs: Annotation<Record<string, any>[]>,
+  qualification_score: Annotation<number>,
+
+  // Auditor state
+  flagged_messages: Annotation<Record<string, any>[]>,
+  is_blocked: Annotation<boolean>,
+
+  // RAG context
+  last_retrieved_context: Annotation<string[]>,
+});
 ```
 
 ### 6.2 RAG Agent
@@ -466,7 +494,7 @@ Raw Documents
 
 ### 8.2 MEDDPICC State Schema
 
-```python
+```typescript
 meddpicc_state = {
     "metrics": {
         "status": "not_captured" | "partially_captured" | "captured",
@@ -642,11 +670,11 @@ All dashboard components update **reactively** via CopilotKit's shared state. Th
 │  └── CSS (Vanilla or CSS Modules)           │
 ├─────────────────────────────────────────────┤
 │  BACKEND                                    │
-│  ├── Python 3.11+                           │
+│  ├── TypeScript 3.11+                           │
 │  ├── LangGraph (Agent orchestration)        │
 │  ├── LangChain (LLM abstraction, loaders)   │
 │  ├── FastAPI (API layer, if needed)         │
-│  └── CopilotKit Python SDK (CoAgents)       │
+│  └── CopilotKit TypeScript SDK (CoAgents)       │
 ├─────────────────────────────────────────────┤
 │  LLMs (Locally Hosted via Ollama)           │
 │  ├── Qwen 3 (Supervisor, MEDDPICC, Auditor) │
@@ -667,18 +695,18 @@ All dashboard components update **reactively** via CopilotKit's shared state. Th
 
 ### 10.2 Key Dependencies
 
-**Python (Backend):**
+**Typescript (Backend):**
 
 | Package | Version | Purpose |
 |---|---|---|
 | `langgraph` | latest | Agent orchestration, state management, supervisor pattern |
 | `langchain` | latest | LLM abstraction, document loaders, text splitters |
 | `langchain-community` | latest | Ollama integration, ChromaDB integration |
-| `copilotkit` | latest | CopilotKit Python SDK for CoAgents |
+| `copilotkit` | latest | CopilotKit TypeScript SDK for CoAgents |
 | `chromadb` | latest | Vector store |
-| `fastapi` | latest | API layer (if CopilotKit SDK doesn't handle routing) |
-| `uvicorn` | latest | ASGI server |
-| `pydantic` | v2 | Data validation, state schemas |
+| `nestjs` | latest | API layer (if CopilotKit SDK doesn't handle routing) |
+| `nestjs-sse` | latest | SSE server |
+| `zod` | v2 | Data validation, state schemas |
 
 **Node.js (Frontend):**
 
@@ -860,7 +888,7 @@ Prospect              Frontend              Supervisor      Auditor
 |---|---|---|---|
 | 1 | Primary user | Prospect (end user exploring services) | User |
 | 2 | Timing | Pre-meeting (before sales call is booked) | User |
-| 3 | Agent framework | LangGraph + LangChain (Python) | User |
+| 3 | Agent framework | LangGraph + LangChain (Typescript) | User |
 | 4 | LLM hosting (prototype) | Locally hosted via Ollama | User |
 | 5 | Embedding model | Nomic Embed Text v1.5 (local) | User |
 | 6 | LLM swappability | LangChain abstraction for Bedrock / OpenAI swap | User |
