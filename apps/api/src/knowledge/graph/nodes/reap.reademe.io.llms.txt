@@ -1,0 +1,167 @@
+# Reap Card Issuing Service Documentation
+
+## Guides
+- [Scoped Tokens (API Keys Permission)](https://reap.readme.io/docs/scoped-tokens-api-keys-permissions.md): Enables fine-grained access control for API keys by assigning scoped permissions that restrict access to specific API endpoints. Permissions are managed exclusively through the CaaS Dashboard.
+- [Real-Time Authorization Overview](https://reap.readme.io/docs/real-time-authorization.md): Learn why you should choose Real-Time Authorization and how it works.
+- [Authorization Flow](https://reap.readme.io/docs/real-time-authorization-deep-dive-authorization-flow.md)
+- [Card Program Setup](https://reap.readme.io/docs/real-time-authorization-deep-dive-card-program-setup.md)
+- [Fund Flow Scenarios](https://reap.readme.io/docs/real-time-authorization-deep-dive-fund-flow-scenarios.md)
+- [Response To Real-Time Authorization Request](https://reap.readme.io/docs/response-to-real-time-authorization-request.md)
+- [Standard Authorization Overview](https://reap.readme.io/docs/standard-authorization.md): Learn why you should choose Standard Authorization and how it works.
+- [Authorization Flow ](https://reap.readme.io/docs/standard-authorization-authorization-flow.md)
+- [Fund Flow Scenarios](https://reap.readme.io/docs/standard-authorization-fund-flow-scenarios.md)
+- [Card Program Setup](https://reap.readme.io/docs/standard-authorizationcard-program-setup.md)
+- [Configuration Checklist ](https://reap.readme.io/docs/configuration-checklist.md)
+- [FX and ATM Fee Configuration and Reconciliation](https://reap.readme.io/docs/fx-fee-configuration-and-reconciliation.md): Set up FX and ATM markups in Reap and understand how they affect cardholder charges, transaction webhooks, and monthly reconciliation.
+- [Managing Multiple Card Programs or Product Suites](https://reap.readme.io/docs/managing-multiple-card-programs-or-product-suites.md): Manage multiple card programs and Reap product suites under a single login, with easy switching and flexible entity setup.
+- [Team Access & Permissions](https://reap.readme.io/docs/managing-team-access-permissions.md): Assign and manage team access in Reap with flexible roles that protect your data and control API access
+- [Reap Card Issuing Dashboard Overview](https://reap.readme.io/docs/reap-card-issuing-dashboard.md): A quick overview of what you can do in the Reap Card Issuing Dashboard—tailored for finance and developer teams.
+- [Card PIN](https://reap.readme.io/docs/card-pin.md): Guide on updating a card PIN, including setup workflows, PIN requirements, and ATM activation details.
+- [Card Replacement](https://reap.readme.io/docs/card-replacement.md): Understand how to replace a card using the API, including handling expired, lost, or damaged cards efficiently.
+- [Card Status](https://reap.readme.io/docs/card-status.md): Learn how does card statuses transition and what they mean due to various scenarios.
+- [Create Card (TC Draft)](https://reap.readme.io/docs/create-card-tc-draft.md): Learn how to effortlessly create both virtual and physical cards using the Cards API as part of Reap's card issuance program.
+- [Create Card](https://reap.readme.io/docs/create-cards.md): Learn how to effortlessly create both virtual and physical cards using our Cards API as part of Reap's card issuance program.
+- [Delete Cards](https://reap.readme.io/docs/delete-cards.md): Learn about how cards can be terminated and what to expect after
+- [Show Card PAN via HTML (iframe)](https://reap.readme.io/docs/card-widget.md): Securely reveal card details in an iFrame with short-lived access URLs and optional encryption.
+- [Revealing Card Sensitive Data: Methods Compared](https://reap.readme.io/docs/reveal-card-pan-methods-compared-1.md): Understand the two methods to reveal sensitive card information (PAN, CVV, expiry date) and choose the one that best fits your needs.
+- [Show Card PAN ](https://reap.readme.io/docs/show-card-pan.md): This endpoint securely retrieves a card’s 16-digit card number, expiration date, and CVV as a Base64-encoded, RSA-encrypted JSON object.
+- [Update Cardholder's Contact Information](https://reap.readme.io/docs/update-cardholder-contact-information.md)
+- [Digital Wallet Provisioning](https://reap.readme.io/docs/digital-wallet-provisioning.md)
+- [Manual provisioning](https://reap.readme.io/docs/manual-provisioning.md)
+- [Push provisioning](https://reap.readme.io/docs/push-provisioning.md)
+- [Digital Wallet and Tokenization Overview](https://reap.readme.io/docs/digital-wallets.md)
+- [Transaction Authorization](https://reap.readme.io/docs/authorization.md): Understanding authorization and how authorization models influence your card program implementation.
+- [Cardholder Managed Funding Model](https://reap.readme.io/docs/cardholder-managed-funding-model.md)
+- [Funding model](https://reap.readme.io/docs/funding.md): Understand the two different funding models to find the best fit for your business needs before building your branded card program.
+- [Card Program Owner Managed Funding Model](https://reap.readme.io/docs/program-owner-managed-funding-model.md)
+- [Getting Started](https://reap.readme.io/docs/getting-started.md): Sign up and get your sandbox API key to start testing Reap Card Issuing APIs — choose your authorization mode and contact us for production access.
+- [KYC and KYB Requirements for Card Issuance](https://reap.readme.io/docs/kyc-and-kyb-requirements-for-card-issuance.md): A guide to KYC and KYB requirements for card issuance, ensuring compliance, security, and seamless onboarding.
+- [KYC Integration Paths](https://reap.readme.io/docs/kyc-integration-paths.md): This section provides a structured overview of Reap’s KYC integration models, including fully managed KYCaaS, Universal KYC frameworks and Sumsub KYC sharing.
+- [API Versioning](https://reap.readme.io/docs/versioning-101.md): Learn about API versioning and manage changes over time.
+- [What's New in v2.0](https://reap.readme.io/docs/whats-new-in-v2.md): Learn what’s new in v2.0 of Reap’s API.
+- [Activate Physical Card ](https://reap.readme.io/docs/activate-physical-card.md): Learn how to activate a physical card via the POST cards/{cardId}/activate end point, including handling lost activation codes securely.
+- [Physical Card Shipping Overview](https://reap.readme.io/docs/physical-card-shipping.md): Learn how Reap facilitates physical card production and shipping, with support for two service providers, flexible shipping options, and a structured end-to-end fulfillment workflow.
+- [Step-by-Step Guide to Ship Cards](https://reap.readme.io/docs/guide-to-physical-card-production-shipping.md): In this guide, we will walk through common examples of user opting in Idemia as the service provider in physical card shipping.
+- [Shipping With Idemia](https://reap.readme.io/docs/shipping-with-idemia.md): Learn how to ship physical cards using Idemia, with support for both individual and bulk delivery via Reap’s integrated API.
+- [Track Card Status](https://reap.readme.io/docs/tracking-physical-card-production-and-shipping-process.md): Understand how to monitor the status of physical card production and shipping using our API and webhook events.
+- [Shipping With Thales](https://reap.readme.io/docs/shipping-with-thales.md): Understand the types of physical card shipping offered by Reap and the end-to-end flow of card production and shipping.
+- [Step-by-Step Guide to Ship Cards](https://reap.readme.io/docs/step-by-step-guide-to-shipping-cards.md): In this guide, we will walk through common examples used for the Thales service provider in physical card shipping.
+- [Track Card Status](https://reap.readme.io/docs/track-card-production-and-shipping-status.md): Understand how to monitor the status of physical card production and shipping using our API and webhook events.
+- [Retrieve Monthly Invoice Billing Details](https://reap.readme.io/docs/retrieve-monthly-invoice-billing-details-copy.md): Learn how to read your settlement file for your reconciliation needs.
+- [Tracking & Reconciling Card Transactions to Master Account Balance](https://reap.readme.io/docs/tracking-reconciling-card-transactions-to-master-acount-balance-1.md): Learn how to retrieve settlement reports via API to reconcile card transactions and track their impact on the master account balance.
+- [Understanding Monthly Invoice ](https://reap.readme.io/docs/understanding-monthly-invoice.md)
+- [Appendix: Suggested Questionnaire To Identify The Eligibility And Type Of Dispute](https://reap.readme.io/docs/appendix-suggested-questionnaire-to-identify-the-eligibility-and-type-of-dispute.md)
+- [Dispute Guide](https://reap.readme.io/docs/dispute-guide.md): Learn how to submit and manage cardholder disputes for your card program programmatically, ensuring accurate intake, timely processing, and efficient resolution of disputed transactions.
+- [Dispute ](https://reap.readme.io/docs/dispute.md): Learn what a dispute is, how the process works, and how to respond effectively.
+- [Step-by-step Guide When Filing A Dispute Case](https://reap.readme.io/docs/step-by-step-guide-when-filing-a-dispute-case.md): Understand what are the key steps when filing a dispute case
+- [Types of Consumer Dispute](https://reap.readme.io/docs/types-of-consumer-dispute.md)
+- [Fraud Reporting Guide](https://reap.readme.io/docs/fraud-reporting-guide.md): Learn how to report fraudulent transactions for your card program, ensuring compliance with the card network rules and minimizing financial risks.
+- [Risk Management Overview](https://reap.readme.io/docs/risk-management-and-financial-control.md): Walk through configurable risk management controls at the card, transaction, and merchant levels to mitigate risks related to fraud and high-risk transactions.
+- [Merchant Category Codes ("MCC") Padding](https://reap.readme.io/docs/risk-management-mcc-padding.md): Explains Merchant Category Codes ("MCC") padding with illustrated examples, demonstrating how it helps card program owners mitigate the financial risk of over drafting.
+- [Understanding Transactions Through POS Data ](https://reap.readme.io/docs/understanding-transactions-through-pos-data.md): A comprehensive guide to using POS data for transaction monitoring and effective fraud risk mitigation.
+- [3DS Forwarding](https://reap.readme.io/docs/3ds-forwarding-1.md): Provide alternative options for you to authenticate cardholder's identity during a 3DS checkout.
+- [3D Secure](https://reap.readme.io/docs/3ds.md): Learn how 3D Secure checkout and authentication work and their impact on the cardholder's online transaction experience.
+- [Restricted Merchant Category Code (MCC) List](https://reap.readme.io/docs/merchant-category-codes.md): Learn about certain Merchant Category Codes (MCC) that we restrict and disallow card transactions for.
+- [Transaction Decline Reasons](https://reap.readme.io/docs/transaction-decline-reasons.md): Learn why transactions may be declined and how to access detailed decline reasons.
+- [Edge Cases](https://reap.readme.io/docs/edge-cases.md): This page highlights a few unique transaction edge cases to consider when managing your card program.
+- [Transaction Scenarios/ Lifecycle](https://reap.readme.io/docs/transaction-scenarios.md)
+- [Partial Clearing ](https://reap.readme.io/docs/partial-clearing.md)
+- [Authorized Transaction with Clearing](https://reap.readme.io/docs/transaction-scenarios-authorized-transaction-with-clearing.md)
+- [Direct Clearing ](https://reap.readme.io/docs/transaction-scenarios-direct-clearing.md)
+- [Refund ](https://reap.readme.io/docs/transaction-scenarios-refund.md)
+- [Reversal Of Authorized Transaction ](https://reap.readme.io/docs/transaction-scenarios-reversal.md)
+- [Transactions 101](https://reap.readme.io/docs/transactions-1.md): Understand the key concepts of credit card transaction, the Transactions endpoint and how you can use it to obtain transaction datasets.
+- [Webhook Management](https://reap.readme.io/docs/webhook-management.md): Enables management of CaaS webhook configurations and supports real-time event notifications across features.
+
+## API Reference
+- [API Basics](https://reap.readme.io/reference/api-basics.md): Test and validate your card issuing integration with the Reap API sandbox environment.
+- [Rate Limit](https://reap.readme.io/reference/rate-limit.md)
+- [Sandbox Environment ](https://reap.readme.io/reference/test-environment.md)
+- [Adjust Card Balance ](https://reap.readme.io/reference/adjust-card-balance.md): Update card balance on Standard Authorization cards with a single API call.
+- [Create A Card](https://reap.readme.io/reference/create-a-card.md): Learn how to create virtual and physical cards in Reap’s sandbox environment.
+- [Send Request](https://reap.readme.io/reference/send-request.md)
+- [Simulate Transaction Clearing](https://reap.readme.io/reference/simulate-transaction-clearing.md): Simulate and test transaction clearing events in the Reap API sandbox environment
+- [Subscribe To Webhook](https://reap.readme.io/reference/subscribe-to-webhook.md): Subscribe to webhook events from Reap’s API to get real-time updates on your card program.
+- [View A Transaction](https://reap.readme.io/reference/view-a-transaction.md): Retrieve transaction details by card, program, or transaction ID using the Reap API.
+- [Get 3DS forwarding status](https://reap.readme.io/reference/get_cards-cardid-3ds-forwarding.md)
+- [3DS Forwarding](https://reap.readme.io/reference/3ds-forwarding.md): How 3DS forwarding works in a 3DS checkout
+- [Respond to 3DS verification](https://reap.readme.io/reference/post_cards-cardid-3ds-answer-initiateactionid.md)
+- [Update 3DS forwarding method](https://reap.readme.io/reference/put_cards-cardid-3ds-forwarding.md)
+- [Delete MCC Padding Config](https://reap.readme.io/reference/delete_account-mcc-padding-mccpaddingid.md)
+- [Get master account balance](https://reap.readme.io/reference/get_account-balance.md)
+- [Get MCC Padding Config by ID](https://reap.readme.io/reference/get_account-mcc-padding-mccpaddingid.md)
+- [Get MCC Padding Config](https://reap.readme.io/reference/get_account-mcc-padding.md)
+- [Create MCC Padding Config](https://reap.readme.io/reference/post_account-mcc-padding.md)
+- [Retrieve card design](https://reap.readme.io/reference/get_card-design-carddesignid.md)
+- [Retrieve all card design](https://reap.readme.io/reference/get_card-design.md)
+- [Delete Card](https://reap.readme.io/reference/delete_cards-cardid.md)
+- [Card Balance History](https://reap.readme.io/reference/get_cards-cardid-balance-history.md)
+- [Retrieve Card](https://reap.readme.io/reference/get_cards-cardid.md)
+- [Retrieve all cards](https://reap.readme.io/reference/get_cards.md)
+- [Show Card PAN - HTML](https://reap.readme.io/reference/post_cards-cardid-reveal-html.md)
+- [Show Card PAN](https://reap.readme.io/reference/post_cards-cardid-reveal.md)
+- [Create Card](https://reap.readme.io/reference/post_cards.md)
+- [Block card](https://reap.readme.io/reference/put_cards-cardid-block.md)
+- [Adjust Card Balance](https://reap.readme.io/reference/put_cards-cardid-credit.md)
+- [Update Card Email](https://reap.readme.io/reference/put_cards-cardid-email.md)
+- [Update OTP Phone Number](https://reap.readme.io/reference/put_cards-cardid-phone.md)
+- [Update PIN](https://reap.readme.io/reference/put_cards-cardid-pin.md)
+- [Reissue Card](https://reap.readme.io/reference/put_cards-cardid-replace.md)
+- [Update spend control of a card](https://reap.readme.io/reference/put_cards-cardid-spend-control.md)
+- [Freeze Card](https://reap.readme.io/reference/put_cards-cardid-status.md)
+- [Unblock card](https://reap.readme.io/reference/put_cards-cardid-unblock.md)
+- [Get dispute details](https://reap.readme.io/reference/get_disputes-id.md): Retrieve detailed information about a single dispute by its ID.
+- [List disputes](https://reap.readme.io/reference/get_disputes.md): Retrieve a paginated list of disputes with optional filters. By default, returns disputes not in final status or disputes that reached final status within the last 30 days.
+- [Create multiple disputes](https://reap.readme.io/reference/post_disputes-bulk.md): Submit multiple disputes at once. Only dispute reasons that do NOT require cardholder signature are allowed. Maximum 100 disputes per request.
+- [Generate signature URL](https://reap.readme.io/reference/post_disputes-id-sign.md): Generate a DocuSign WebForm URL for a dispute that requires cardholder signature. Only works for disputes with status REQUIRE_ACTION.
+- [Create a dispute](https://reap.readme.io/reference/post_disputes.md): Submit a single dispute for a transaction. If the dispute reason requires cardholder signature, the dispute will be created with status REQUIRE_ACTION. Use the POST /disputes/{id}/sign endpoint to obtain the DocuSign WebForm URL.
+- [Get settlement file for company](https://reap.readme.io/reference/get_files-filetype.md)
+- [Get fraud alerts](https://reap.readme.io/reference/get_fraud-alert.md): Retrieve fraud alerts with optional filtering by status and charge ID. Supports pagination.
+- [Report fraudulent transaction](https://reap.readme.io/reference/post_transactions-transactionid-fraud-alert.md): Report a fraudulent transaction without existing notification from Reap/Thredd. The confirmation date must be within 180 days of the transaction date.
+- [Respond to fraud alert](https://reap.readme.io/reference/put_fraud-alert-fraudalertid-respond.md): Confirm or decline fraud alert raised by Reap/Thredd. Must be sent within 72 hours of the fraud alert notification.
+- [Generate Google Pay OPC](https://reap.readme.io/reference/post_cards-cardid-opc.md): This endpoint is used to generate a Google Pay OPC for a card, please refer to Google Documentation for more information on how to make use of this endpoint. https://developers.google.com/pay/issuers/apis/push-provisioning/android
+- [Get Activation code for physical card](https://reap.readme.io/reference/get_cards-cardid-activation-code.md)
+- [Activate Physical Card](https://reap.readme.io/reference/post_cards-cardid-activate.md)
+- [Get physical card shipping order by bulkship ID](https://reap.readme.io/reference/get_cards-bulkshipid-bulkship.md)
+- [Get physical card shipping order](https://reap.readme.io/reference/get_cards-cardid-orders.md)
+- [Bulk ship physical cards](https://reap.readme.io/reference/post_cards-bulk-ship.md)
+- [Ship physical card](https://reap.readme.io/reference/post_cards-cardid-ship.md)
+- [Confirm cardholder identity](https://reap.readme.io/reference/put_cards-cardid-identity.md)
+- [Simulate](https://reap.readme.io/reference/simulate.md)
+- [Simulate authorisation transaction](https://reap.readme.io/reference/post_simulate-authorisation.md)
+- [Simulate bulk ship production status](https://reap.readme.io/reference/post_simulate-bulkships-bulkshipid-production-status.md)
+- [Simulate bulk ship shipping status](https://reap.readme.io/reference/post_simulate-bulkships-bulkshipid-shipping-status.md)
+- [Simulate card production status](https://reap.readme.io/reference/post_simulate-cards-cardid-production-status.md)
+- [Simulate card shipping status](https://reap.readme.io/reference/post_simulate-cards-cardid-shipping-status.md)
+- [Simulate authorisation clearing transaction](https://reap.readme.io/reference/post_simulate-transactionid-clearing.md)
+- [Simulate authorisation refund transaction](https://reap.readme.io/reference/post_simulate-transactionid-refund.md)
+- [Simulate authorisation reversal transaction](https://reap.readme.io/reference/post_simulate-transactionid-reversal.md)
+- [Get top up wallet info](https://reap.readme.io/reference/get_cards-cardid-top-up-wallet.md)
+- [Withdraw Remaining Balance to Wallet](https://reap.readme.io/reference/post_cards-cardid-top-up-wallet-withdraw.md)
+- [Simulate crypto top up transaction](https://reap.readme.io/reference/post_simulate-cardid-crypto-top-up.md)
+- [List Transactions](https://reap.readme.io/reference/get_cards-cardid-transactions.md)
+- [Get single transaction](https://reap.readme.io/reference/get_transactions-transactionid.md)
+- [Get all transactions](https://reap.readme.io/reference/get_transactions.md)
+- [Transactions](https://reap.readme.io/reference/transactions.md)
+- [Delete a webhook subscription](https://reap.readme.io/reference/delete_webhooks-id.md)
+- [Dispute](https://reap.readme.io/reference/dispute.md): An overview of the `dispute` event type.
+- [Fraud Alert](https://reap.readme.io/reference/fraud-alert.md): An overview of the `fraud` event type.
+- [Get webhook subscriptions](https://reap.readme.io/reference/get_webhooks.md)
+- [Webhooks](https://reap.readme.io/reference/webhooks.md): An overview of the Card Issuing Program webhook and how to subscribe to it.
+- [Subscribe to webhooks](https://reap.readme.io/reference/post_webhooks.md)
+- [Account](https://reap.readme.io/reference/webhook-eventtype-account.md): An overview of the `prefund` event type.
+- [Authorization ](https://reap.readme.io/reference/webhook-eventtype-authorization-request.md): An overview of the `authorization` event type.
+- [Crypto Wallet ](https://reap.readme.io/reference/webhook-eventtype-crypto-wallet.md): An overview of the `crypto_wallet` event type.
+- [Files ](https://reap.readme.io/reference/webhook-eventtype-files.md): An overview of the `files` event type.
+- [Notification ](https://reap.readme.io/reference/webhook-eventtype-notification.md): An overview of the `notification` event type.
+- [Transaction ](https://reap.readme.io/reference/webhook-eventtype-transaction.md): An overview of the `transaction` event type.
+- [Shipping (Thales)](https://reap.readme.io/reference/webhook-eventtyype-shipping-thales.md): Understand the `shipping` webhook for clients using Thales for card shipping.
+- [Shipping (Idemia)](https://reap.readme.io/reference/webhook-eventtyype-shipping.md): Understand the `shipping` webhook for clients using Idemia for card shipping.
+- [Card ](https://reap.readme.io/reference/webhook-type-card-status.md): An overview of the `card` event type.
+
+## Changelog
+- [June 4, 2026](https://reap.readme.io/changelog/june-4-2026.md)
+- [June 2, 2026](https://reap.readme.io/changelog/june-2-2026.md)
+- [May 22, 2026](https://reap.readme.io/changelog/may-22-2026.md)
+- [March 30, 2026](https://reap.readme.io/changelog/march-30-2026.md)
+- [March 18, 2026](https://reap.readme.io/changelog/march-18-2026.md)

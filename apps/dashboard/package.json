@@ -6,16 +6,18 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "NODE_OPTIONS='--max-old-space-size=512' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/openai-compatible": "latest",
     "@copilotkit/react-core": "latest",
     "@copilotkit/react-ui": "latest",
     "@copilotkit/runtime": "latest",
     "next": "latest",
+    "openai": "^6.42.0",
     "react": "^19",
     "react-dom": "^19"
   },
