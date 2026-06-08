@@ -1,50 +1,39 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: 1.1.0 → 1.2.0
+- Modified principles:
+  - [PRINCIPLE_1_NAME] → Specification-Driven Development
+  - [PRINCIPLE_2_NAME] → Strict Component Consistency
+  - [PRINCIPLE_3_NAME] → Deterministic AI Workflows
+  - [PRINCIPLE_4_NAME] → Collaboration & Predictability
+  - [PRINCIPLE_5_NAME] → Test-Driven Development
+- Added sections: None
+- Removed sections: [SECTION_2_NAME], [SECTION_3_NAME]
+- Templates requiring updates: ⚠ pending
+- Follow-up TODOs: None
+-->
+
+# universal-onboarding-mono Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Specification-Driven Development
+Architecture, workflows, APIs, AI agents, and UI interactions are defined as explicit, version-controlled specifications before implementation. Every feature must begin with a clear specification covering business intent, API contracts, agent state transitions, tool permissions, UI interactions, observability requirements, and security constraints.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Strict Component Consistency
+Components must align with shared contracts, typed schemas, and documented behavioral standards to ensure consistency across the platform. The architecture prioritizes modularity, strong typing, reproducibility, and maintainability.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Deterministic AI Workflows
+AI agents are treated as deterministic workflow systems rather than opaque automation. They require structured prompts, auditable tool usage, traceable execution graphs, and human-in-the-loop checkpoints for sensitive operations.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Collaboration & Predictability
+Design patterns must enable teams and AI coding assistants to collaborate effectively while reducing ambiguity, regressions, and undocumented behavior across the monorepo.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
-
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
-
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Test-Driven Development
+All code implementation must be preceded by automated tests. Tests must fail before implementation begins, ensuring the behavior is well-defined and verifiable. A strict red-green-refactor cycle must be followed to maintain code quality and predictability.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+All specifications and implementations must be reviewed against these principles. AI agents must operate within their documented bounds and seek explicit human approval for sensitive transitions. The architecture's predictability relies on strict adherence to these shared rules.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.2.0 | **Ratified**: 2026-05-28 | **Last Amended**: 2026-05-28

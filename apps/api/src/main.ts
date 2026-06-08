@@ -2,11 +2,20 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { TracingInterceptor } from './common/interceptors/tracing.interceptor';
+
+import { json, urlencoded } from 'express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bodyParser: false });
+
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
 
   app.setGlobalPrefix('v1/api');
+  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalInterceptors(new TracingInterceptor());
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
