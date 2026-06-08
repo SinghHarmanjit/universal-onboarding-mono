@@ -11,14 +11,14 @@ export const createBusinessRetrieverNode = (
         : [state.question];
 
     // Run retrievals in parallel for all query variations
-    const resultsPromises = queries.map(query =>
-      businessRetrievalService.retrieveRelevantKnowledge(query, 3)
+    const resultsPromises = queries.map((query) =>
+      businessRetrievalService.retrieveRelevantKnowledge(query, 3),
     );
     const resultsArray = await Promise.all(resultsPromises);
 
     // Flatten and deduplicate by entry id
     const uniqueEntries = new Map();
-    resultsArray.flat().forEach(entry => {
+    resultsArray.flat().forEach((entry) => {
       if (!uniqueEntries.has(entry.id)) {
         uniqueEntries.set(entry.id, entry);
       }

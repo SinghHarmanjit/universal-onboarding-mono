@@ -26,7 +26,7 @@ describe('ReadMe API Document Ingestion (Integration)', () => {
     const payload = {
       title: 'ReadMe Integration Test',
       source_url: 'https://reap.readme.io/docs/getting-started',
-      version: '1.0'
+      version: '1.0',
     };
 
     const response = await request(app.getHttpServer())

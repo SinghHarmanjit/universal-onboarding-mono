@@ -17,15 +17,18 @@ export const getLLM = (configService: ConfigService) => {
     'gemma3',
   );
 
-  console.log("[getLLM] Resolved Base URL:", baseUrl);
-  console.log("[getLLM] Resolved Model Name:", modelName);
+  console.log('[getLLM] Resolved Base URL:', baseUrl);
+  console.log('[getLLM] Resolved Model Name:', modelName);
 
   return new ChatOpenAI({
     modelName: modelName,
     maxTokens: 8192,
     temperature: 0,
     apiKey: configService.get<string>('GEMINI_API_KEY', 'not-needed-for-local'),
-    openAIApiKey: configService.get<string>('GEMINI_API_KEY', 'not-needed-for-local'),
+    openAIApiKey: configService.get<string>(
+      'GEMINI_API_KEY',
+      'not-needed-for-local',
+    ),
     configuration: {
       baseURL: baseUrl,
     },

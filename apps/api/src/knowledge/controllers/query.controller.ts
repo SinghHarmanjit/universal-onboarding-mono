@@ -19,7 +19,7 @@ export class QueryController {
     @InjectRepository(RetrievalEvent)
     private readonly retrievalEventRepo: Repository<RetrievalEvent>,
     private readonly configService: ConfigService,
-  ) { }
+  ) {}
 
   @Post()
   @Sse()

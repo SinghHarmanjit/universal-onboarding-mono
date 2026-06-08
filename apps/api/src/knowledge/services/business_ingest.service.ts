@@ -48,7 +48,10 @@ export class BusinessIngestService {
       if (data.content) {
         embeddingVector = await this.embeddings.embedQuery(data.content);
         if (embeddingVector.length > NOMIC_EMBEDDING_DIMENSIONS) {
-          embeddingVector = embeddingVector.slice(0, NOMIC_EMBEDDING_DIMENSIONS);
+          embeddingVector = embeddingVector.slice(
+            0,
+            NOMIC_EMBEDDING_DIMENSIONS,
+          );
         }
       }
     } catch (err) {

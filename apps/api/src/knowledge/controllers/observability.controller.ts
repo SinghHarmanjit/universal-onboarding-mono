@@ -1,4 +1,9 @@
-import { Controller, Get, Logger, InternalServerErrorException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Logger,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ActionLog } from '../../models/action_log';
@@ -10,7 +15,7 @@ export class ObservabilityController {
   constructor(
     @InjectRepository(ActionLog)
     private readonly actionLogRepository: Repository<ActionLog>,
-  ) { }
+  ) {}
 
   @Get()
   async getLogs() {

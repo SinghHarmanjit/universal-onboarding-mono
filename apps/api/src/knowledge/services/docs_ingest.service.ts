@@ -54,7 +54,9 @@ export class DocsIngestService {
     try {
       const response = await fetch(sourceUrl);
       if (!response.ok) {
-        throw new Error(`Failed to fetch llms.txt (${response.status}: ${response.statusText}).`);
+        throw new Error(
+          `Failed to fetch llms.txt (${response.status}: ${response.statusText}).`,
+        );
       }
       content = await response.text();
     } catch (error) {
@@ -76,7 +78,8 @@ export class DocsIngestService {
 
       if (inGuidesSection) {
         // Extract markdown links specifically starting with https://reap.readme.io/docs
-        const regex = /\[([^\]]+)\]\((https:\/\/reap\.readme\.io\/docs[^\)]+)\)/g;
+        const regex =
+          /\[([^\]]+)\]\((https:\/\/reap\.readme\.io\/docs[^\)]+)\)/g;
         let match;
         while ((match = regex.exec(line)) !== null) {
           urlsToIngest.push(match[2]);
@@ -84,7 +87,9 @@ export class DocsIngestService {
       }
     }
 
-    this.logger.log(`Found ${urlsToIngest.length} guides to ingest from llms.txt`);
+    this.logger.log(
+      `Found ${urlsToIngest.length} guides to ingest from llms.txt`,
+    );
 
     const ingestedDocs: DocumentationDocument[] = [];
     for (const url of urlsToIngest) {
@@ -111,7 +116,9 @@ export class DocsIngestService {
     });
 
     if (existingDoc && existingDoc.created_at > thirtyDaysAgo) {
-      this.logger.log(`Document ${sourceUrl} was fetched less than 30 days ago. Skipping.`);
+      this.logger.log(
+        `Document ${sourceUrl} was fetched less than 30 days ago. Skipping.`,
+      );
       return existingDoc;
     }
 
@@ -124,18 +131,24 @@ export class DocsIngestService {
     // This bypasses the API completely and avoids 403 errors on Git-backed projects.
     const readmeMatch = sourceUrl.match(/https?:\/\/([^\/]+)\/docs\/([^/?#]+)/);
     if (!readmeMatch) {
-      throw new Error(`Only ReadMe URLs are supported. Provided URL: ${sourceUrl}`);
+      throw new Error(
+        `Only ReadMe URLs are supported. Provided URL: ${sourceUrl}`,
+      );
     }
 
     const slug = readmeMatch[2];
     const mdUrl = sourceUrl.endsWith('.md') ? sourceUrl : `${sourceUrl}.md`;
 
-    this.logger.log(`Detected ReadMe URL. Fetching raw markdown from '${mdUrl}'...`);
+    this.logger.log(
+      `Detected ReadMe URL. Fetching raw markdown from '${mdUrl}'...`,
+    );
     try {
       const response = await fetch(mdUrl);
-      
+
       if (!response.ok) {
-        throw new Error(`Failed to fetch markdown from ReadMe (${response.status}: ${response.statusText}).`);
+        throw new Error(
+          `Failed to fetch markdown from ReadMe (${response.status}: ${response.statusText}).`,
+        );
       }
 
       content = await response.text();
@@ -149,7 +162,10 @@ export class DocsIngestService {
       externalId = slug;
       this.logger.log(`Successfully fetched ReadMe document: ${title}`);
     } catch (error) {
-      this.logger.error(`Error fetching markdown from ReadMe for slug ${slug}`, error);
+      this.logger.error(
+        `Error fetching markdown from ReadMe for slug ${slug}`,
+        error,
+      );
       throw error;
     }
 
@@ -177,7 +193,10 @@ export class DocsIngestService {
       const headingMatch = line.match(/^(#{1,6})\s+(.*)$/);
       if (headingMatch) {
         if (currentText.length > 0) {
-          sections.push({ heading: currentHeading, text: currentText.join('\n') });
+          sections.push({
+            heading: currentHeading,
+            text: currentText.join('\n'),
+          });
           currentText = [];
         }
         currentHeading = headingMatch[2].trim();
@@ -218,7 +237,10 @@ export class DocsIngestService {
             `search_document: ${chunkContent}`,
           );
           if (embeddingVector.length > NOMIC_EMBEDDING_DIMENSIONS) {
-            embeddingVector = embeddingVector.slice(0, NOMIC_EMBEDDING_DIMENSIONS);
+            embeddingVector = embeddingVector.slice(
+              0,
+              NOMIC_EMBEDDING_DIMENSIONS,
+            );
           }
         } catch (err) {
           this.logger.error(

@@ -1,4 +1,9 @@
-import { Controller, Get, Logger, InternalServerErrorException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Logger,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { SkipThrottle } from '@nestjs/throttler';
 
