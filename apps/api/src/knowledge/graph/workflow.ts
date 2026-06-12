@@ -29,19 +29,20 @@ export const createWorkflow = (
   const workflow = new StateGraph(RAGStateAnnotation)
     .addNode('query_rewriter', queryRewriterNode)
     .addNode('docs_retriever', docsRetrieverNode)
-    .addNode('business_retriever', businessRetrieverNode)
-    .addNode('context_merger', contextMergerNode)
+    // .addNode('business_retriever', businessRetrieverNode)
+    // .addNode('context_merger', contextMergerNode)
     .addNode('answer_generator', answerGeneratorNode)
     .addNode('analytics_logger', analyticsLoggerNode)
     .addEdge(START, 'query_rewriter')
     // Parallel retrieval
     .addEdge('query_rewriter', 'docs_retriever')
-    .addEdge('query_rewriter', 'business_retriever')
+    // .addEdge('query_rewriter', 'business_retriever')
     // Merge after both retrievers
-    .addEdge('docs_retriever', 'context_merger')
-    .addEdge('business_retriever', 'context_merger')
+    // .addEdge('docs_retriever', 'context_merger')
+    // .addEdge('business_retriever', 'context_merger')
     // Generate answer
-    .addEdge('context_merger', 'answer_generator')
+    // .addEdge('context_merger', 'answer_generator')
+    .addEdge('docs_retriever', 'answer_generator')
     // Log analytics after answer is generated
     .addEdge('answer_generator', 'analytics_logger')
     .addEdge('analytics_logger', END);

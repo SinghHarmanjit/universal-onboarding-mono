@@ -8,11 +8,13 @@ import { DocsIngestService } from './services/docs_ingest.service';
 import { DocsRetrievalService } from './services/docs_retrieval.service';
 import { BusinessIngestService } from './services/business_ingest.service';
 import { BusinessRetrievalService } from './services/business_retrieval.service';
+import { QueryService } from './services/query.service';
 import { DocumentationDocument } from '../models/document';
 import { DocumentationChunk } from '../models/chunk';
 import { BusinessKnowledgeEntry } from '../models/business_knowledge';
 import { ActionLog } from '../models/action_log';
 import { RetrievalEvent } from '../models/retrieval_event';
+import { Citation } from '../models/citation';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -23,6 +25,7 @@ import { ConfigModule } from '@nestjs/config';
       BusinessKnowledgeEntry,
       ActionLog,
       RetrievalEvent,
+      Citation,
     ]),
     ConfigModule,
   ],
@@ -37,6 +40,7 @@ import { ConfigModule } from '@nestjs/config';
     DocsRetrievalService,
     BusinessIngestService,
     BusinessRetrievalService,
+    QueryService,
   ],
 })
 export class KnowledgeModule {}

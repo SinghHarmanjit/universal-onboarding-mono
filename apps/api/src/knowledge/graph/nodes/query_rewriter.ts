@@ -1,17 +1,22 @@
 import { RAGState } from '../state';
 import { BaseChatModel } from '@langchain/core/language_models/chat_models';
 import { StringOutputParser } from '@langchain/core/output_parsers';
-import { ChatPromptTemplate } from '@langchain/core/prompts';
+import {
+  ChatPromptTemplate,
+  MessagesPlaceholder,
+} from '@langchain/core/prompts';
 
 export const createQueryRewriterNode = (llm: BaseChatModel) => {
   return async (state: RAGState): Promise<Partial<RAGState>> => {
     const originalQuestion = state.question;
+    const hasHistory = state.messages && state.messages.length > 0;
 
     const prompt = ChatPromptTemplate.fromMessages([
       [
         'system',
         `You are an expert search query generator for a retrieval-augmented generation (RAG) system for the Reap Card Issuing Service.
 Your task is to take a user's question and generate 3 distinct search query variations optimized for vector similarity search.
+Consider the conversation history if present, as the user's latest question might refer back to it.
 
 Guidelines:
 1. Generate concise, keyword-focused queries (2-5 words) rather than full sentences. Vector search works best with keywords.
@@ -21,13 +26,17 @@ Guidelines:
 
 Domain Context Keywords (use only if highly relevant to the user's intent): Real-Time Authorization, Standard Authorization, Cardholder Managed Funding, Program Owner Managed Funding, Physical/Virtual Cards, Digital Wallet Provisioning, Tokenization, KYC/KYB, 3DS Forwarding, MCC Padding, Disputes, Fraud Alerts, Webhooks, Reconciliation, Crypto Top-up.`,
       ],
+      ...(hasHistory ? [new MessagesPlaceholder('messages')] : []),
       ['human', '{question}'],
     ]);
 
     const chain = prompt.pipe(llm).pipe(new StringOutputParser());
 
     try {
-      const response = await chain.invoke({ question: originalQuestion });
+      const response = await chain.invoke({
+        question: originalQuestion,
+        ...(hasHistory && { messages: state.messages }),
+      });
       console.log('[QueryRewriter] Raw LLM response:', response);
 
       // Clean up response: remove <think> tags and their contents

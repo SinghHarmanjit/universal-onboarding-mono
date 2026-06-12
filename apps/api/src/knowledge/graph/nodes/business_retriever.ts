@@ -25,7 +25,7 @@ export const createBusinessRetrieverNode = (
     });
 
     return {
-      business_results: Array.from(uniqueEntries.values()),
+      // business_results: Array.from(uniqueEntries.values()),
     };
   };
 };

@@ -6,6 +6,9 @@ import {
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { NextRequest } from "next/server";
 
+// Suppress AI SDK warnings for v2 specification compatibility mode
+(globalThis as any).AI_SDK_LOG_WARNINGS = false;
+
 const baseURL = process.env.LLM_BASE_URL?.endsWith("/v1")
   ? process.env.LLM_BASE_URL
   : `${process.env.LLM_BASE_URL}/v1`;
