@@ -100,7 +100,7 @@ body {
 
 /* ===== Dashboard Pane (Left) ===== */
 .dashboard-pane {
-  width: 40%;
+  width: 50%;
   min-width: 320px;
   padding: 20px;
   overflow-y: auto;

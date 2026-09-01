@@ -1,11 +1,11 @@
-import { RAGState } from '../state';
+import { ProductState } from '../product_state';
 import { Repository } from 'typeorm';
-import { RetrievalEvent } from '../../../models/retrieval_event';
+import { RetrievalEvent } from '../../../../models/retrieval_event';
 
 export const createAnalyticsLoggerNode = (
   retrievalEventRepo: Repository<RetrievalEvent>,
 ) => {
-  return async (state: RAGState): Promise<Partial<RAGState>> => {
+  return async (state: ProductState): Promise<Partial<ProductState>> => {
     const docs = state.docs_results || [];
     // const docs = state.merged_context?.docs || state.docs_results || [];
     // const business =

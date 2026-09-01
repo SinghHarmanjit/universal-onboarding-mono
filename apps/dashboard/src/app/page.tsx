@@ -2,18 +2,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { SessionSummary } from "../components/session_summary/SessionSummary";
-import { OpenQuestions } from "../components/session_summary/OpenQuestions";
-import { ResourcesList } from "../components/resources/ResourcesList";
 import { SessionSummaryEntry } from "../types/sessionSummary";
-import { OpenQuestion } from "../types/openQuestions";
-import { DiscoveredResource } from "../types/resources";
 import { marked } from "marked";
+import { MeddicProfile } from "../components/MeddicProfile";
+import { ExtractedFacts } from "../components/ExtractedFacts";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-// Global prefix is "v1/api", controller is "api/v1/query"
-const QUERY_URL = `${API_BASE}/v1/api/query`;
-
-interface Citation extends DiscoveredResource { }
+// Global prefix is "v1/api", controller is "supervisor"
+const QUERY_URL = `${API_BASE}/v1/api/supervisor`;
 
 export interface ChatMessage {
   id: string;
@@ -23,9 +19,10 @@ export interface ChatMessage {
 
 export default function Home() {
   const [sessionSummaries, setSessionSummaries] = useState<SessionSummaryEntry[]>([]);
-  const [openQuestions, setOpenQuestions] = useState<OpenQuestion[]>([]);
-  const [resources, setResources] = useState<Citation[]>([]);
+  const [facts, setFacts] = useState<any[]>([]);
+  const [meddic, setMeddic] = useState<any | null>(null);
   const [apiStatus, setApiStatus] = useState<"idle" | "ok" | "error">("idle");
+  const [prospectId, setProspectId] = useState<string | undefined>();
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -78,6 +75,7 @@ export default function Home() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          prospectId: prospectId,
           question: userQuery,
           messages: chatHistory,
         }),
@@ -88,6 +86,10 @@ export default function Home() {
       }
 
       const data = await response.json();
+      
+      if (data.prospectId && !prospectId) {
+        setProspectId(data.prospectId);
+      }
 
       const aiMessage: ChatMessage = {
         id: Math.random().toString(36).substring(7),
@@ -97,33 +99,12 @@ export default function Home() {
 
       setMessages((prev) => [...prev, aiMessage]);
 
-      // Merge citations
-      if (data.citations && data.citations.length > 0) {
-        setResources((prev) => {
-          const existing = new Set(prev.map((r) => r.url ?? r.source));
-          const newOnes = data.citations
-            .map((c: any) => ({
-              title: c.text_snippet || c.source_id,
-              url: c.url,
-              source: c.source_type,
-            }))
-            .filter((c: Citation) => !existing.has(c.url ?? c.source));
-          return [...newOnes, ...prev].slice(0, 10);
-        });
+      if (data.facts) {
+        setFacts(data.facts);
       }
 
-      // Merge open questions
-      if (data.open_questions && data.open_questions.length > 0) {
-        setOpenQuestions((prev) => {
-          const existingHeadings = new Set(prev.map((q) => q.heading));
-          const newQuestions = data.open_questions
-            .map((q: string) => ({
-              heading: q,
-              content: "Unanswered during session.",
-            }))
-            .filter((q: OpenQuestion) => !existingHeadings.has(q.heading));
-          return [...prev, ...newQuestions];
-        });
+      if (data.meddic) {
+        setMeddic(data.meddic);
       }
 
       // Generate dynamic Session Summary
@@ -182,12 +163,16 @@ export default function Home() {
           <section className="card">
             <h2>Session Summary</h2>
             <SessionSummary summaries={sessionSummaries} />
-            <OpenQuestions questions={openQuestions} />
           </section>
 
           <section className="card">
-            <h2>📚 Resources</h2>
-            <ResourcesList resources={resources} />
+            <h2>MEDDIC Profile</h2>
+            <MeddicProfile data={meddic} />
+          </section>
+
+          <section className="card">
+            <h2>Extracted Facts</h2>
+            <ExtractedFacts facts={facts} />
           </section>
 
           <section className="card cta-card">

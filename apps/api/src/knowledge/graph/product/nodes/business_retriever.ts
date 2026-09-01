@@ -1,10 +1,10 @@
-import { RAGState } from '../state';
-import { BusinessRetrievalService } from '../../services/business_retrieval.service';
+import { ProductState } from '../product_state';
+import { BusinessRetrievalService } from '../../../services/business_retrieval.service';
 
 export const createBusinessRetrieverNode = (
   businessRetrievalService: BusinessRetrievalService,
 ) => {
-  return async (state: RAGState): Promise<Partial<RAGState>> => {
+  return async (state: ProductState): Promise<Partial<ProductState>> => {
     const queries =
       state.query_variations && state.query_variations.length > 0
         ? state.query_variations

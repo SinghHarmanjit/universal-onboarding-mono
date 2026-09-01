@@ -1,4 +1,4 @@
-import { RAGState } from '../state';
+import { ProductState } from '../product_state';
 import { BaseChatModel } from '@langchain/core/language_models/chat_models';
 import { StringOutputParser } from '@langchain/core/output_parsers';
 import {
@@ -8,7 +8,7 @@ import {
 import { HumanMessage, AIMessage } from '@langchain/core/messages';
 
 export const createAnswerGeneratorNode = (llm: BaseChatModel) => {
-  return async (state: RAGState): Promise<Partial<RAGState>> => {
+  return async (state: ProductState): Promise<Partial<ProductState>> => {
     const docs = state.docs_results || [];
     const hasHistory = state.messages && state.messages.length > 0;
 

@@ -1,4 +1,4 @@
-import { RAGState } from '../state';
+import { ProductState } from '../product_state';
 import { BaseChatModel } from '@langchain/core/language_models/chat_models';
 import { StringOutputParser } from '@langchain/core/output_parsers';
 import {
@@ -7,7 +7,7 @@ import {
 } from '@langchain/core/prompts';
 
 export const createQueryRewriterNode = (llm: BaseChatModel) => {
-  return async (state: RAGState): Promise<Partial<RAGState>> => {
+  return async (state: ProductState): Promise<Partial<ProductState>> => {
     const originalQuestion = state.question;
     const hasHistory = state.messages && state.messages.length > 0;
 
@@ -27,41 +27,64 @@ Guidelines:
 Domain Context Keywords (use only if highly relevant to the user's intent): Real-Time Authorization, Standard Authorization, Cardholder Managed Funding, Program Owner Managed Funding, Physical/Virtual Cards, Digital Wallet Provisioning, Tokenization, KYC/KYB, 3DS Forwarding, MCC Padding, Disputes, Fraud Alerts, Webhooks, Reconciliation, Crypto Top-up.`,
       ],
       ...(hasHistory ? [new MessagesPlaceholder('messages')] : []),
-      ['human', '{question}'],
+      [
+        'human',
+        '{question}\n\nReminder: Output ONLY a valid JSON array of strings containing the query variations. Do not answer the question or include conversational text.',
+      ],
     ]);
 
     const chain = prompt.pipe(llm).pipe(new StringOutputParser());
 
     try {
+      // Only take the last 4 messages for immediate context to prevent polluting the prompt with older topics
+      const recentMessages = hasHistory ? state.messages.slice(-4) : [];
+
       const response = await chain.invoke({
         question: originalQuestion,
-        ...(hasHistory && { messages: state.messages }),
+        ...(hasHistory && { messages: recentMessages }),
       });
       console.log('[QueryRewriter] Raw LLM response:', response);
 
-      // Clean up response: remove <think> tags and their contents
-      const cleanedResponse = response
-        .replace(/<think>[\s\S]*?<\/think>/g, '')
-        .trim();
+      let cleanedResponse = response;
+      if (cleanedResponse.includes('<think>') && !cleanedResponse.includes('</think>')) {
+        cleanedResponse = cleanedResponse.replace(/<think>[\s\S]*/, '');
+      } else {
+        cleanedResponse = cleanedResponse.replace(/<think>[\s\S]*?<\/think>/g, '');
+      }
+      cleanedResponse = cleanedResponse.trim();
+
       console.log('[QueryRewriter] Cleaned response:', cleanedResponse);
 
       let variations: string[] = [];
       try {
-        // Attempt to parse JSON array
-        variations = JSON.parse(cleanedResponse);
+        // Attempt to extract JSON array if there's surrounding text
+        const jsonMatch = cleanedResponse.match(/\[[\s\S]*\]/);
+        let strToParse = jsonMatch ? jsonMatch[0] : cleanedResponse;
+        
+        // Fix trailing commas in array
+        strToParse = strToParse.replace(/,\s*\]/g, ']');
+        
+        variations = JSON.parse(strToParse);
       } catch (parseError) {
         console.log(
           '[QueryRewriter] JSON parse failed, using fallback:',
-          parseError,
+          parseError instanceof Error ? parseError.message : String(parseError),
         );
-        // Fallback to newline parsing if model didn't output JSON array
-        variations = cleanedResponse
-          .replace(/```json/g, '')
-          .replace(/```/g, '')
-          .replace(/[\[\]"]/g, '')
-          .split('\n')
-          .map((q) => q.trim().replace(/,$/, '')) // Remove trailing commas
-          .filter((q) => q.length > 0);
+        
+        // Better fallback parsing
+        const textWithoutMarkdown = cleanedResponse.replace(/```json/gi, '').replace(/```/g, '');
+        
+        // 1. Try to find quoted strings directly
+        const quotedStrings = [...textWithoutMarkdown.matchAll(/"([^"]+)"/g)].map(m => m[1]);
+        if (quotedStrings.length > 0) {
+          variations = quotedStrings;
+        } else {
+          // 2. Fallback to newline parsing, removing list numbers/bullets
+          variations = textWithoutMarkdown
+            .split('\n')
+            .map((q) => q.trim().replace(/^-\s*/, '').replace(/^\d+\.\s*/, '').replace(/[\[\]"]/g, '').replace(/,$/, ''))
+            .filter((q) => q.length > 0 && !q.toLowerCase().startsWith('here are'));
+        }
       }
 
       console.log(

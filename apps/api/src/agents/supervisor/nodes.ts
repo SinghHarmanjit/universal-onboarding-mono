@@ -1,7 +1,7 @@
 import { SupervisorStateAnnotation } from './types';
 import { BaseChatModel } from '@langchain/core/language_models/chat_models';
 import { AIMessage } from '@langchain/core/messages';
-import { createWorkflow } from '../../knowledge/graph/workflow';
+import { createProductWorkflow } from '../../knowledge/graph/product/product_workflow';
 import { DocsRetrievalService } from '../../knowledge/services/docs_retrieval.service';
 import { BusinessRetrievalService } from '../../knowledge/services/business_retrieval.service';
 import { Repository } from 'typeorm';
@@ -19,7 +19,7 @@ export const createRagRetrievalNode = (
     const userQuery = lastMsg ? lastMsg.content : '';
 
     // Execute the actual RAG workflow
-    const ragWorkflow = createWorkflow(
+    const ragWorkflow = createProductWorkflow(
       docsRetrievalService,
       businessRetrievalService,
       retrievalEventRepo,
