@@ -9,6 +9,8 @@ import { HealthModule } from './health/health.module';
 import { KnowledgeModule } from './knowledge/knowledge.module';
 import { getTypeOrmConfig } from './db/pgvector';
 import { setupLangSmith } from './config/langsmith';
+import { ProspectModule } from './prospect/prospect.module';
+import { AgentsModule } from './agents/agents.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { setupLangSmith } from './config/langsmith';
     }),
     HealthModule,
     KnowledgeModule,
+    ProspectModule,
+    AgentsModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }],

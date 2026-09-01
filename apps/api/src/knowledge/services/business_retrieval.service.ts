@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, MoreThanOrEqual, IsNull } from 'typeorm';
 import { BusinessKnowledgeEntry } from '../../models/business_knowledge';
+import { BusinessEntity } from '../../models/business_entity';
 import { ConfigService } from '@nestjs/config';
 import { OpenAIEmbeddings } from '@langchain/openai';
 import {
@@ -17,6 +18,8 @@ export class BusinessRetrievalService {
   constructor(
     @InjectRepository(BusinessKnowledgeEntry)
     private readonly businessRepository: Repository<BusinessKnowledgeEntry>,
+    @InjectRepository(BusinessEntity)
+    private readonly businessEntityRepository: Repository<BusinessEntity>,
     private readonly configService: ConfigService,
   ) {
     const baseUrl = this.configService.get<string>(
@@ -69,5 +72,23 @@ export class BusinessRetrievalService {
       .getMany();
 
     return entries;
+  }
+
+  async retrieveEntities(
+    entityTypes: string[],
+    limit: number = 5,
+  ): Promise<BusinessEntity[]> {
+    this.logger.log(`Retrieving business entities of types: ${entityTypes.join(', ')}`);
+    if (!entityTypes || entityTypes.length === 0) {
+      return [];
+    }
+
+    const entities = await this.businessEntityRepository
+      .createQueryBuilder('be')
+      .where('be.entity_type IN (:...entityTypes)', { entityTypes })
+      .limit(limit)
+      .getMany();
+
+    return entities;
   }
 }

@@ -19,10 +19,7 @@ export class DocsRetrievalService {
     private readonly chunkRepository: Repository<DocumentationChunk>,
     private readonly configService: ConfigService,
   ) {
-    const baseUrl = this.configService.get<string>(
-      'EMBEDDING_BASE_URL',
-      'http://localhost:8000/v1',
-    );
+    const baseUrl = this.configService.get<string>('EMBEDDING_BASE_URL');
     this.embeddings = new OpenAIEmbeddings({
       modelName: NOMIC_EMBEDDING_MODEL_NAME,
       configuration: {
@@ -60,6 +57,7 @@ export class DocsRetrievalService {
     // Here we use cosine similarity (<=>) and order ascending
     const chunks = await this.chunkRepository
       .createQueryBuilder('chunk')
+      .leftJoinAndSelect('chunk.document', 'document')
       .orderBy(`chunk.embedding <=> '${embeddingString}'`, 'ASC')
       .limit(limit)
       .getMany();
